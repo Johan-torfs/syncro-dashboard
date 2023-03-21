@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import { AssetFormComponent } from './admin/asset/asset-form/asset-form.component';
-import { AssetListComponent } from './admin/asset/asset-list/asset-list.component';
+import { AssetFormComponent } from './asset/asset-form/asset-form.component';
+import { AssetListComponent } from './asset/asset-list/asset-list.component';
 
 const routes: Routes = [
     { path: 'assets', component: AssetListComponent },
