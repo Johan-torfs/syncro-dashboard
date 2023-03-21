@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../admin/user/user';
+import { UserLogin } from '../admin/user/userLogin';
 import { UserResponse } from '../admin/user/user-response';
 
 @Injectable({
@@ -16,13 +16,14 @@ export class AuthService {
     return localStorage.getItem('token') ?? '';
   }
 
-  getUser(): User | null {
+  getUser(): UserLogin | null {
     if (this.isLoggedIn()) {
       return {
         id: parseInt(localStorage.getItem('id') ?? '0'),
         email: localStorage.getItem('email') ?? '', 
         password: '',
-        token: this.getToken()
+        token: this.getToken(),
+        role: localStorage.getItem('role') ?? ''
       };
     } else {
       return null;
@@ -37,11 +38,24 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  authenticate(user: User): Observable<UserResponse> {
-    return this.httpClient.post<UserResponse>('http://localhost:3000/login', user);
+  isHasOneOfRoles(roles: string[] = []): boolean {
+    if (roles.length === 0) return true;
+
+    let userRole = localStorage.getItem('role');
+    if (!userRole) return false;
+
+    for (let index in roles) {
+      if (roles[index] === userRole) return true;
+    }
+
+    return false;
   }
 
-  register(user: User): Observable<UserResponse> {
+  authenticate(user: UserLogin): Observable<UserResponse> {
+    return this.httpClient.post<UserResponse>('http://localhost:3000/auth/login', user);
+  }
+
+  register(user: UserLogin): Observable<UserResponse> {
     return this.httpClient.post<UserResponse>('http://localhost:3000/register', user);
   }
 }

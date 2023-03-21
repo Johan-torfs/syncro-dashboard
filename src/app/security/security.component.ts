@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../admin/user/user';
+import { UserLogin } from '../admin/user/userLogin';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
   styleUrls: ['./security.component.css']
 })
 export class SecurityComponent implements OnInit {
-  user: User = {id: 0, email: '', password: '', token: ''};
+  user: UserLogin = {id: 0, email: '', password: '', token: '', role: ''};
 
   isSubmitted: boolean = false;
   errorMessage: string = '';
@@ -49,10 +49,11 @@ export class SecurityComponent implements OnInit {
     if (this.isLogin) {
       this.authService.authenticate(this.user).subscribe(result => {
         this.errorMessage = '';
-
-        localStorage.setItem('token', result.accessToken);
+        
+        localStorage.setItem('token', result.access_token);
         localStorage.setItem('id', result.user.id.toString());
         localStorage.setItem('email', result.user.email);
+        localStorage.setItem('role', result.user.role);
 
         this.router.navigate(['']);
       }, error => {
