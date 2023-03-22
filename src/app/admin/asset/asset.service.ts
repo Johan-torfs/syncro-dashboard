@@ -16,18 +16,18 @@ export class AssetService {
   }
 
   getAssetById(id: number): Observable<Asset> {
-    return this.httpClient.get<Asset>("http://localhost:3000/categories/" + id);
+    return this.httpClient.get<Asset>("http://localhost:3000/assets/" + id);
   }
 
   postAsset(asset: Asset): Observable<Asset> {
-      return this.httpClient.post<Asset>("http://localhost:3000/categories", asset);
+      return this.httpClient.post<Asset>("http://localhost:3000/assets", asset);
   }
 
-  putAsset(id:number, asset: Asset): Observable<Asset> {
-      return this.httpClient.put<Asset>("http://localhost:3000/categories/" + id, asset);
+  patchAsset(id:number, asset: Asset): Observable<Asset> {
+      return this.httpClient.patch<Asset>("http://localhost:3000/assets/" + id, asset);
   }
 
   deleteAsset(id: number): Observable<Asset> {
-      return this.httpClient.delete<Asset>("http://localhost:3000/categories/" + id);
+      return this.httpClient.delete<Asset>("http://localhost:3000/assets/" + id);
   }
 }

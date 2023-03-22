@@ -4,6 +4,6 @@ export interface UserLogin {
     lastname?: string;
     email: string;
     password: string;
-    token: string;
-    role: string;
+    token?: string;
+    role?: string;
 }

@@ -53,7 +53,7 @@ export class SecurityComponent implements OnInit {
         localStorage.setItem('token', result.access_token);
         localStorage.setItem('id', result.user.id.toString());
         localStorage.setItem('email', result.user.email);
-        localStorage.setItem('role', result.user.role);
+        localStorage.setItem('role', result.user.role || '');
 
         this.router.navigate(['']);
       }, error => {
@@ -61,7 +61,22 @@ export class SecurityComponent implements OnInit {
         this.isSubmitted = false;
       });
     } else {
-      alert('work in progress');
+      delete this.user.token;
+      delete this.user.role;
+      
+      this.authService.register(this.user).subscribe(result => {
+        this.errorMessage = '';
+        
+          localStorage.setItem('token', result.access_token);
+          localStorage.setItem('id', result.user.id.toString());
+          localStorage.setItem('email', result.user.email);
+          localStorage.setItem('role', result.user.role || '');
+
+        this.router.navigate(['']);
+      }, error => {
+        this.errorMessage = 'Invalid credentials!';
+        this.isSubmitted = false;
+      });
     }
   }
 }

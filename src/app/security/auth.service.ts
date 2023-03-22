@@ -56,6 +56,6 @@ export class AuthService {
   }
 
   register(user: UserLogin): Observable<UserResponse> {
-    return this.httpClient.post<UserResponse>('http://localhost:3000/register', user);
+    return this.httpClient.post<UserResponse>('http://localhost:3000/auth/register', user);
   }
 }

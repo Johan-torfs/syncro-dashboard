@@ -11,10 +11,12 @@ import { AssetService } from '../asset.service';
 })
 export class AssetListComponent implements OnInit, OnDestroy {
   assets: Asset[] = [];
+  filteredAssets: Asset[] = [];
   assets$: Subscription = new Subscription();
   deleteAssets$: Subscription = new Subscription();
 
   errorMessage: string = '';
+  search: string = '';
 
   constructor(private assetService: AssetService, private router: Router) {}
 
@@ -43,6 +45,26 @@ export class AssetListComponent implements OnInit, OnDestroy {
   }
 
   getAssets() {
-    this.assets$ = this.assetService.getAssets().subscribe(result => this.assets = result);
+    this.assets$ = this.assetService.getAssets().subscribe(result => {
+      this.assets = result;
+      this.filterAssets();
+    });
+  }
+
+  filterAssets() {
+    if (this.search == '') {
+      this.filteredAssets = this.assets;
+      return;
+    }
+
+    this.filteredAssets = this.assets.filter(asset => {
+      var search = this.search.toLowerCase();
+      return (
+        asset.name.toLowerCase().includes(search) || 
+        asset.customer.firstname?.toLowerCase().includes(search) ||
+        asset.customer.lastname?.toLowerCase().includes(search) ||
+        asset.asset_type.toLowerCase().includes(search)
+      );
+    });
   }
 }

@@ -1,0 +1,35 @@
+<div class="container p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 mx-auto" role="alert" *ngIf="isSubmitted && errorMessage">
+    <span class="font-medium">Error!</span> {{errorMessage}}
+</div>
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        <div class="flex flex-row justify-between">
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isAdd">Add priority</h2>
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isEdit">Edit priority</h2>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="/admin/priorities">Back to priority list</a>
+        </div>
+        <form (ngSubmit)="onSubmit()" [formGroup]="priorityForm">
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 mb-8">
+                <div class="sm:col-span-2">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                    <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Name" required formControlName="name">
+                </div>
+                <div class="w-full">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
+                    <div class="flex">
+                        <button type="button" *ngFor="let varColor of colors" class="flex-grow h-7 p-0 m-0 mr-2 last:mr-0 rounded-md" (click)="changeColor(varColor)">
+                            <div class="w-full h-full border rounded-md" [ngStyle]="{backgroundColor: varColor}"></div>
+                        </button>
+                    </div>
+                    <label for="color" class="block w-full h-7 p-0 m-0 mt-4 mr-2 rounded-md border border-white" [ngStyle]="{backgroundColor: priorityForm.value.color}">
+                        <input type="color" name="color" id="color" class="w-0 h-0 p-0 opacity-0" placeholder="Color" required formControlName="color">
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                {{isAdd ? 'Add' : 'Save'}} Priority
+            </button>
+        </form>
+    </div>
+  </section>
