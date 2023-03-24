@@ -5,6 +5,8 @@ import { AuthGuard } from './security/auth.guard';
 import { LocalGuard } from './security/local.guard';
 import { RolesGuard } from './security/roles.guard';
 import { SecurityComponent } from './security/security.component';
+import { TicketFormComponent } from './ticket/ticket-form/ticket-form.component';
+import { TicketListComponent } from './ticket/ticket-list/ticket-list.component';
 
 const routes: Routes = [
   { 
@@ -15,6 +17,16 @@ const routes: Routes = [
     path: 'dashboard', 
     component: HomeComponent, 
     canActivate:[AuthGuard] 
+  },
+  { 
+    path: 'tickets', 
+    component: TicketListComponent, 
+    canActivate:[AuthGuard]
+  },
+  { 
+    path: 'tickets/form', 
+    component: TicketFormComponent, 
+    canActivate:[AuthGuard]
   },
   { 
     path: 'admin', 

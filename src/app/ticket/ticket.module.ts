@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { TicketFormComponent } from './ticket-form/ticket-form.component';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { TicketService } from './ticket.service';
-import { UserModule } from '../user/user.module';
-import { PriorityModule } from '../priority/priority.module';
+import { CommentModule } from '../comment/comment.module';
 
 
 
@@ -15,15 +14,14 @@ import { PriorityModule } from '../priority/priority.module';
   ],
   imports: [
     SharedModule,
-    UserModule,
-    PriorityModule
+    CommentModule
   ],
   exports: [
     TicketListComponent,
     TicketFormComponent
   ],
   providers: [
-    TicketService
-  ]
+    TicketService,
+  ],
 })
 export class TicketModule { }

@@ -83,4 +83,8 @@ export class AssetFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  back() {
+    this.router.navigateByUrl("/admin/assets");
+  }
 }

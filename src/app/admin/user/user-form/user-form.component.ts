@@ -89,4 +89,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  back() {
+    this.router.navigateByUrl("/admin/users");
+  }
 }

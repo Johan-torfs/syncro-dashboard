@@ -78,4 +78,8 @@ export class PriorityFormComponent {
   changeColor(color: string) {
     this.priorityForm.controls['color'].setValue(color);
   }
+
+  back() {
+    this.router.navigateByUrl("/admin/priorities");
+  }
 }

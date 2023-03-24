@@ -15,11 +15,15 @@ export class UserService {
   }
 
   getCustomers(): Observable<User[]> {
-    return this.httpClient.get<User[]>("http://localhost:3000/users/customers/all");
+    return this.httpClient.get<User[]>("http://localhost:3000/users/all/customer");
   }
 
   getTechnicians(): Observable<User[]> {
-    return this.httpClient.get<User[]>("http://localhost:3000/users/technicians/all");
+    return this.httpClient.get<User[]>("http://localhost:3000/users/all/technician");
+  }
+
+  getAdmins(): Observable<User[]> {
+    return this.httpClient.get<User[]>("http://localhost:3000/users/all/admin");
   }
 
   getUserById(id: number): Observable<User> {

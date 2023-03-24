@@ -6,48 +6,59 @@
     <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
         <div class="flex flex-row justify-between">
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isAdd">Add ticket</h2>
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isEdit">Edit ticket</h2>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="/admin/tickets">Back to ticket list</a>
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isEdit">{{ticketForm.value.subject}}</h2>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 cursor-pointer" (click)="back()">Back to ticket list</a>
         </div>
         <form (ngSubmit)="onSubmit()" [formGroup]="ticketForm">
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 mb-8">
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2" *ngIf="isAdd">
                     <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject</label>
                     <input type="text" name="subject" id="subject" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Subject" required formControlName="subject">
                 </div>
-                <div class="w-full">
-                    <label for="number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number</label>
-                    <input type="number" name="number" id="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Number" required formControlName="number">
-                </div>
-                <div class="w-full">
+                <div class="w-full" *ngIf="isAdd || !isCustomer">
                     <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Priority</label>
                     <select id="priority" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" formControlName="priorityId">
                         <option [ngValue]="0" disabled>Choose priority</option>
                         <option *ngFor="let priority of priorities" [ngValue]="priority.id">{{priority.name}}</option>
                     </select>
                 </div>
-                <div class="w-full">
+                <div class="w-full" *ngIf="isAdd && !isCustomer">
                     <label for="technician" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Customer</label>
                     <select id="customer" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" formControlName="customerId">
                         <option [ngValue]="0" disabled>Choose customer</option>
                         <option *ngFor="let customer of customers" [ngValue]="customer.id">{{customer.firstname}} {{customer.lastname}}</option>
                     </select>
                 </div>
-                <div class="w-full">
-                    <label for="technician" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technician</label>
-                    <select id="technician" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" formControlName="technicianId">
-                        <option [ngValue]="0" disabled>Choose technician</option>
-                        <option *ngFor="let technician of technicians" [ngValue]="technician.id">{{technician.firstname}} {{technician.lastname}}</option>
-                    </select>
-                </div>
                 <div class="sm:col-span-2" *ngIf="isAdd">
-                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Initial comment (optional)</label>
-                    <textarea id="description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Your initial comment" formControlName="comment"></textarea>
+                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comment</label>
+                    <textarea id="description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter comment..." formControlName="comment"></textarea>
                 </div>
             </div>
             <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                 {{isAdd ? 'Add' : 'Save'}} Ticket
             </button>
         </form>
+
+        <form (ngSubmit)="onSubmitComment()" [formGroup]="commentForm" *ngIf="isEdit" class="my-8">
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 mb-8">
+                <div class="sm:col-span-2">
+                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comment</label>
+                    <textarea id="description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Enter comment..." formControlName="body"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                Post comment
+            </button>
+        </form>
+
+        <!-- Past comments -->
+        <h3 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isEdit">Past comments</h3>
+        <p *ngIf="comments.length == 0">There are no comments on this ticket. Enter one above to start the conversation.</p>
+        <div>
+            <div *ngFor="let comment of comments" class="p-5 text-gray-900 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white last:rounded-b-md first: rounded-t-md">
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Created at: {{formatDate(comment.created_at)}}</p>
+                <p>{{comment.body}}</p>
+            </div>
+        </div>
     </div>
   </section>

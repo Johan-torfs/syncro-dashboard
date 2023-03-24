@@ -6,18 +6,20 @@ import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
 import { SharedModule } from './shared/shared.module';
 import { SecurityModule } from './security/security.module';
+import { TicketModule } from './ticket/ticket.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MenuComponent,
+    MenuComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     SecurityModule,
-    SharedModule
+    SharedModule,
+    TicketModule
   ],
   providers: [],
   bootstrap: [AppComponent]

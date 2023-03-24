@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Ticket } from '../ticket';
+import { Ticket } from 'src/app/ticket/ticket';
 import { TicketService } from '../ticket.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { TicketService } from '../ticket.service';
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.css']
 })
-export class TicketListComponent implements OnInit, OnDestroy{
+export class TicketListComponent {
   tickets: Ticket[] = [];
   filteredTickets: Ticket[] = [];
   tickets$: Subscription = new Subscription();
@@ -18,7 +18,16 @@ export class TicketListComponent implements OnInit, OnDestroy{
   errorMessage: string = '';
   search: string = '';
 
-  constructor(private ticketService: TicketService, private router: Router) {}
+  isCustomer: boolean = false;
+  isTechnician: boolean = false;
+  userId: number = 0;
+
+  constructor(private ticketService: TicketService, private router: Router) {
+    this.isCustomer = localStorage.getItem('role') == 'customer' || localStorage.getItem('role') == '';
+    this.isTechnician = localStorage.getItem('role') == 'technician';
+
+    this.userId = +(localStorage.getItem('id') || 0);
+  }
 
   ngOnInit(): void {
     this.getTickets();
@@ -30,18 +39,11 @@ export class TicketListComponent implements OnInit, OnDestroy{
   }
 
   add() {
-    this.router.navigate(['admin/tickets/form'], { state: { mode: 'add' } });
+    this.router.navigate(['tickets/form'], { state: { mode: 'add' } });
   }
 
   edit(id: number) {
-    this.router.navigate(['admin/tickets/form'], { state: { id: id, mode: 'edit' } });
-  }
-
-  delete(id: number) {
-    this.deleteTickets$ = this.ticketService.deleteTicket(id).subscribe({
-      next: (v) => this.getTickets(),
-      error: (e) => this.errorMessage = e.message
-    });
+    this.router.navigate(['tickets/form'], { state: { id: id, mode: 'edit' } });
   }
 
   getTickets() {
@@ -70,5 +72,4 @@ export class TicketListComponent implements OnInit, OnDestroy{
       );
     });
   }
-
 }

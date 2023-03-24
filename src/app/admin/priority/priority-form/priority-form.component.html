@@ -7,7 +7,7 @@
         <div class="flex flex-row justify-between">
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isAdd">Add priority</h2>
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" *ngIf="isEdit">Edit priority</h2>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="/admin/priorities">Back to priority list</a>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 cursor-pointer" (click)="back()">Back to priority list</a>
         </div>
         <form (ngSubmit)="onSubmit()" [formGroup]="priorityForm">
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 mb-8">

@@ -1,5 +1,6 @@
-import { Priority } from "../priority/priority";
-import { User } from "../user/user";
+import { Priority } from "../admin/priority/priority";
+import { User } from "../admin/user/user";
+import { Comment as TicketComment } from 'src/app/comment/comment';
 
 export interface Ticket {
     id: number;
@@ -14,5 +15,5 @@ export interface Ticket {
     priority?: Priority;
     technician?: User;
     customer: User;
-    comments: Comment[];
+    comments: TicketComment[];
 }
