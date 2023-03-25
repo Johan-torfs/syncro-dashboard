@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Ticket } from 'src/app/ticket/ticket';
@@ -9,7 +9,7 @@ import { TicketService } from '../ticket.service';
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.css']
 })
-export class TicketListComponent {
+export class TicketListComponent implements OnInit, OnDestroy {
   tickets: Ticket[] = [];
   filteredTickets: Ticket[] = [];
   tickets$: Subscription = new Subscription();

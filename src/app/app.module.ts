@@ -7,12 +7,18 @@ import { MenuComponent } from './menu/menu.component';
 import { SharedModule } from './shared/shared.module';
 import { SecurityModule } from './security/security.module';
 import { TicketModule } from './ticket/ticket.module';
+import { CounterCardComponent } from './home/counter-card/counter-card.component';
+import { PieChartComponent } from './home/pie-chart/pie-chart.component';
+import { AreaChartComponent } from './home/area-chart/area-chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MenuComponent
+    MenuComponent,
+    CounterCardComponent,
+    PieChartComponent,
+    AreaChartComponent
   ],
   imports: [
     AppRoutingModule,

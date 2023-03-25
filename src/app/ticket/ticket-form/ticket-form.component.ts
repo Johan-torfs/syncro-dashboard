@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ import { formatDate } from '@angular/common';
   templateUrl: './ticket-form.component.html',
   styleUrls: ['./ticket-form.component.css']
 })
-export class TicketFormComponent {
+export class TicketFormComponent implements OnInit, OnDestroy {
   isAdd: boolean = false;
   isEdit: boolean = false;
   ticketId: number = 0;
@@ -47,7 +47,8 @@ export class TicketFormComponent {
     status: new FormControl(''),
     priorityId: new FormControl(0),
     customerId: new FormControl(0),
-    comment: new FormControl('')
+    comment: new FormControl(''),
+    resolved_date: new FormControl('')
   });
 
   commentForm = new FormGroup({
@@ -96,7 +97,8 @@ export class TicketFormComponent {
           status: result.status,
           priorityId: result.priority?.id || 0,
           customerId: result.customer.id,
-          comment: ''
+          comment: '',
+          resolved_date: result.resolved_date?.toString() || ''
         });
 
         this.comments = result.comments;
@@ -133,6 +135,13 @@ export class TicketFormComponent {
         error: (e) => this.errorMessage = e.message
       });
     }
+  }
+
+  onResolve() {
+    this.putTicket$ = this.ticketService.patchTicketStatus(this.ticketId, "Resolved").subscribe({
+      next: (v) => this.router.navigateByUrl("/tickets"),
+      error: (e) => this.errorMessage = e.message
+    });
   }
 
   onSubmitComment() {

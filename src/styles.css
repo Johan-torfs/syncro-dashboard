@@ -1,15 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-app-root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100svh;
-}
-
-app-security {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}

@@ -12,6 +12,7 @@ export interface Ticket {
     due_date?: Date;
     start_date?: Date;
     end_date?: Date;
+    resolved_date?: Date;
     priority?: Priority;
     technician?: User;
     customer: User;
