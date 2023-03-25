@@ -1,7 +1,5 @@
 <div class="container grid gap-4 sm:grid-cols-5 sm:gap-6 mb-8 mx-auto flex-grow">
-    <div class="sm:col-span-2 bg-gray-600 h-full">
-        
-    </div>
+    <app-counter-card class="sm:col-span-2 h-full" description="Cups of Coffee" [count]="coffee" src="/assets/img/java.png"></app-counter-card>
     <app-counter-card class="w-full h-full" description="Opened Today" [count]="ticketsOpen"></app-counter-card>
     <app-counter-card class="w-full h-full" description="Updated Today" [count]="ticketsUpdated"></app-counter-card>
     <app-counter-card class="w-full h-full" description="Closed Today" [count]="ticketsClosed"></app-counter-card>

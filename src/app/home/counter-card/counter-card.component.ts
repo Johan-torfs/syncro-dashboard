@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./counter-card.component.css']
 })
 export class CounterCardComponent {
+  @Input() src: string = '';
   @Input() count: number = 0;
   @Input() description: string = '';
 }

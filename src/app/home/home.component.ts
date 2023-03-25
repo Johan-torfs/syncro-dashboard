@@ -68,13 +68,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     for (let i = 0; i < tickets.length; i++) {
       let ticket = tickets[i];   
 
-      if (this.isToday(ticket.created_at)) {
+      if (this.isToday(ticket.created_at)) 
         countOpen++;
-      } else if (this.isToday(ticket.updated_at)) {
+
+      if (this.isToday(ticket.updated_at)) 
         countUpdated++;
-      } else if (this.isToday(ticket.resolved_date)) {
+
+      if (this.isToday(ticket.resolved_date)) 
         countClosed++;
-      }
     }
 
     this.ticketsOpen = countOpen;
