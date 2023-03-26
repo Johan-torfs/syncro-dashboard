@@ -4,6 +4,6 @@
     <app-counter-card class="w-full h-full" description="Updated Today" [count]="ticketsUpdated"></app-counter-card>
     <app-counter-card class="w-full h-full" description="Closed Today" [count]="ticketsClosed"></app-counter-card>
 
-    <div class="sm:row-span-2 sm:col-span-2 bg-orange-600 h-full"></div>
+    <app-pie-chart class="sm:row-span-2 sm:col-span-2 h-full" title="Employee tickets this month" [values]="employeeValues"></app-pie-chart>
     <div class="sm:row-span-2 sm:col-span-3 bg-gray-600 h-full"></div>
 </div>

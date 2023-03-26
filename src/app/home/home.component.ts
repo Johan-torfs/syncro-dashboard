@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   fromDate: Date = new Date();
   ticketsByMonth: Ticket[][] = [];
 
+  employeeValues: {key: string, value: number}[] =  [{key: 'Johan', value: 44}, {key: 'Vlad', value: 55}, {key: 'Loïc', value: 41}, {key: 'Jordy', value: 17}];
+
   tickets$: Subscription = new Subscription();
 
   constructor(private ticketService: TicketService) { 
