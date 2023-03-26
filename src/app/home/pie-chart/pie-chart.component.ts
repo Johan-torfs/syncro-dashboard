@@ -31,23 +31,10 @@ export class PieChartComponent implements AfterViewInit, OnInit {
       },
       legend: {
         formatter: function(val: number, opts: { w: { globals: { series: { [x: string]: string; }; }; }; seriesIndex: string | number; }) {
-          return self.values[+opts.seriesIndex]["key"] + " - " + opts.w.globals.series[opts.seriesIndex]
-        }
-      },
-      title: {
-        text: this.title
-      },
-      responsive: [{
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200
-          },
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }]
+          return self.values[+opts.seriesIndex]["key"]
+        },
+        position: 'bottom'
+      }
     };
   }
 
