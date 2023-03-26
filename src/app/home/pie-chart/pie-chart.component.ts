@@ -1,25 +1,15 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import * as ApexCharts from 'apexcharts';
+import { Component } from '@angular/core';
+import { AbstractChart } from '../abstract-chart.component';
 
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.css']
 })
-export class PieChartComponent implements AfterViewInit, OnInit {
-  @ViewChild('.apexchart') chart: any;
-  apexChart: any;
-
-  @Input() values: {key: string, value: number}[] = [{key: '', value: 0}];
-  @Input() title: string = '';
-
-  options = {};
-
-  ngOnInit(): void {
-    const self = this;
-
-    this.options = {
-      series: this.values.map(obj => obj.value),
+export class PieChartComponent extends AbstractChart {
+  override createOptions(values: {key: string, value: number}[]) {
+    let options = {
+      series: values.map(obj => obj.value),
       chart: {
         type: 'donut',
       },
@@ -30,16 +20,11 @@ export class PieChartComponent implements AfterViewInit, OnInit {
         type: 'gradient',
       },
       legend: {
-        formatter: function(val: number, opts: { w: { globals: { series: { [x: string]: string; }; }; }; seriesIndex: string | number; }) {
-          return self.values[+opts.seriesIndex]["key"]
-        },
         position: 'bottom'
-      }
+      },
+      labels: values.map(obj => obj.key)
     };
-  }
 
-  ngAfterViewInit(): void {
-    this.apexChart = new ApexCharts(document.querySelector('.apexchart'), this.options);  
-    this.apexChart.render();
+    return options;
   }
 }

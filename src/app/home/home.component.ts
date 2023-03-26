@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Ticket } from '../ticket/ticket';
 import { TicketService } from '../ticket/ticket.service';
 
@@ -15,9 +15,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   ticketsUpdated: number = 0;
 
   fromDate: Date = new Date();
-  ticketsByMonth: Ticket[][] = [];
+  private ticketsByMonthSubject$ = new Subject<{key: string, open: number, resolved: number}[]>();
+  public ticketsByMonthObservable$: Observable<{key: string, open: number, resolved: number}[]> = this.ticketsByMonthSubject$.asObservable();
 
-  employeeValues: {key: string, value: number}[] =  [{key: 'Johan', value: 44}, {key: 'Vlad', value: 55}, {key: 'Loïc', value: 41}, {key: 'Jordy', value: 17}];
+  private employeeValuesSubject$ = new Subject<{key: string, value: number}[]>();
+  public employeeValuesObservable$: Observable<{key: string, value: number}[]> = this.employeeValuesSubject$.asObservable();
 
   tickets$: Subscription = new Subscription();
 
@@ -36,13 +38,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getTickets() {
     this.tickets$ = this.ticketService.getTicketsFromDate(this.fromDate).subscribe(result => {
-      this.ticketsByMonth = this.groupByMonth(result);
+      this.groupByMonth(result);
       this.count(result);
     });
   }
 
   groupByMonth(tickets: Ticket[]) {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
     let ticketsByMonth: Ticket[][] = [];
+    let ticketsForAreaChart: {key: string, open: number, resolved: number}[] = [];
+
     let month: number = 0;
     let year: number = 0;
 
@@ -54,12 +60,43 @@ export class HomeComponent implements OnInit, OnDestroy {
         month = ticketDate.getMonth();
         year = ticketDate.getFullYear();
         ticketsByMonth.push([]);
+        ticketsForAreaChart.push({key: monthNames[month], open: 0, resolved: 0});
       }
 
       ticketsByMonth[ticketsByMonth.length - 1].push(ticket);
+
+      if (ticket.status.toLowerCase() == 'resolved')
+        ticketsForAreaChart[ticketsForAreaChart.length - 1].resolved++;
+      else 
+        ticketsForAreaChart[ticketsForAreaChart.length - 1].open++;
     }
 
-    return ticketsByMonth;
+    let employeeValues = this.getEmployeeValues(ticketsByMonth[ticketsByMonth.length - 1]);
+    this.employeeValuesSubject$.next(employeeValues);
+
+    this.ticketsByMonthSubject$.next(ticketsForAreaChart);    
+  }
+
+  getEmployeeValues(tickets: Ticket[]) {
+    let employeeValues: {key: string, value: number}[] = [{key: "Unassigned", value: 0}];
+
+    for (let index = 0; index < tickets.length; index++) {
+      let ticket = tickets[index];
+      let technician = ticket.technician;
+      
+      if (technician) {
+        let obj = employeeValues.find(obj => obj.key == technician?.firstname + ' ' + technician?.lastname);
+        if (!!obj) {
+          obj.value++;
+        } else {
+          employeeValues.push({key: technician?.firstname + ' ' + technician?.lastname, value: 1});
+        }
+      } else {
+        employeeValues[0].value++;
+      }
+    }
+    
+    return employeeValues;
   }
 
   count(tickets: Ticket[]) {

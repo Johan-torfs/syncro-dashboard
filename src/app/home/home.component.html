@@ -1,9 +1,9 @@
-<div class="container grid gap-4 sm:grid-cols-5 sm:gap-6 mb-8 mx-auto flex-grow">
-    <app-counter-card class="sm:col-span-2 h-full" description="Cups of Coffee" [count]="coffee" src="/assets/img/java.png"></app-counter-card>
+<div class="container grid gap-4 md:grid-cols-5 md:gap-6 mb-8 mx-auto flex-grow">
+    <app-counter-card class="md:col-span-2 h-full" description="Cups of Coffee" [count]="coffee" src="/assets/img/java.png"></app-counter-card>
     <app-counter-card class="w-full h-full" description="Opened Today" [count]="ticketsOpen"></app-counter-card>
     <app-counter-card class="w-full h-full" description="Updated Today" [count]="ticketsUpdated"></app-counter-card>
     <app-counter-card class="w-full h-full" description="Closed Today" [count]="ticketsClosed"></app-counter-card>
 
-    <app-pie-chart class="sm:row-span-2 sm:col-span-2 h-full" title="Employee tickets this month" [values]="employeeValues"></app-pie-chart>
-    <div class="sm:row-span-2 sm:col-span-3 bg-gray-600 h-full"></div>
+    <app-pie-chart id="pie-chart" class="md:row-span-2 md:col-span-2 h-full" title="Employee tickets this month" [valuesObservable$]="employeeValuesObservable$"></app-pie-chart>
+    <app-area-chart id="area-chart" class="md:row-span-2 md:col-span-3 h-full" title="Ticket history" [valuesObservable$]="ticketsByMonthObservable$"></app-area-chart>
 </div>
