@@ -9,41 +9,41 @@
         </a>
     </div>
 
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-lg overflow-hidden sm:rounded-lg">
+    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-lg overflow-hidden sm:rounded-lg dark:bg-gray-800 dark:border-gray-700">
         <h1 class="text-2xl font-semibold dark:text-white mb-8 mt-4" *ngIf="isLogin">Login</h1>
         <h1 class="text-2xl font-semibold dark:text-white mb-8 mt-4" *ngIf="isRegister">Register</h1>
         <form (ngSubmit)="onSubmit()" #authForm="ngForm">
             <!-- Email Address -->
             <div>
-                <label class="block font-medium text-sm text-gray-700" for="email">
+                <label class="block font-medium text-sm text-gray-700 dark:text-white" for="email">
                     Email
                 </label>
 
                 <input type="name" id="email" name="email"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Email" required email [(ngModel)]="user.email">
             </div>
 
             <!-- Password -->
             <div class="mt-4">
-                <label class="block font-medium text-sm text-gray-700" for="password">
+                <label class="block font-medium text-sm text-gray-700 dark:text-white" for="password">
                     Password
                 </label>
 
                 <input type="password" id="password" name="password"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Password" required [(ngModel)]="user.password">
             </div>
 
             <div class="flex items-center justify-between mt-4">
-                <button type="submit" [disabled]="!authForm.form.valid || isSubmitted" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                <button type="submit" [disabled]="!authForm.form.valid || isSubmitted" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                     <span *ngIf="isLogin">Log in</span>
                     <span *ngIf="isRegister">Register</span>
                 </button>
             </div>
 
             <div class="flex items-center justify-between mt-6" *ngIf="isLogin">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="/register">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100" href="/register">
                     No account? Register here!
                 </a>
             </div>

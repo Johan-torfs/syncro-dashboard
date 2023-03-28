@@ -10,6 +10,7 @@ import { TicketModule } from './ticket/ticket.module';
 import { CounterCardComponent } from './home/counter-card/counter-card.component';
 import { PieChartComponent } from './home/pie-chart/pie-chart.component';
 import { AreaChartComponent } from './home/area-chart/area-chart.component';
+import { DrinkCounterService } from './home/coffee.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import { AreaChartComponent } from './home/area-chart/area-chart.component';
     SharedModule,
     TicketModule
   ],
-  providers: [],
+  providers: [
+    DrinkCounterService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

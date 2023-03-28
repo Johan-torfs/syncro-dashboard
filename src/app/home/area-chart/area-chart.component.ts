@@ -23,6 +23,7 @@ export class AreaChartComponent extends AbstractChart {
         type: 'area',
         stacked: true,
         width: 700,
+        foreColor: document.documentElement.classList.contains('dark') ? '#dddddd' : '#373d3f'
       },
       dataLabels: {
         enabled: false

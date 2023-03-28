@@ -12,6 +12,7 @@ export class PieChartComponent extends AbstractChart {
       series: values.map(obj => obj.value),
       chart: {
         type: 'donut',
+        foreColor: document.documentElement.classList.contains('dark') ? '#dddddd' : '#373d3f'
       },
       dataLabels: {
         enabled: false

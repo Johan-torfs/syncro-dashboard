@@ -44,11 +44,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   getDrinks() {
     this.drinkCounterService.getCoffee().subscribe(result => {
       this.coffee = {...this.coffee, ...result};
-      
+      if (this.coffee.last_changed >= this.beer.last_changed)
+        document.documentElement.classList.remove('dark');
     });
 
     this.drinkCounterService.getBeer().subscribe(result => {
       this.beer = {...this.beer, ...result};
+      if (this.beer.last_changed > this.coffee.last_changed)
+        document.documentElement.classList.add('dark');
     });
   }
 

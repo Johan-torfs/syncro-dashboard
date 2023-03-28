@@ -11,8 +11,8 @@ export class SecurityInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = this.authService.getToken();
-        if (token) {
+        const token = this.authService.getToken();          
+        if (token && !request.headers.get('Authorization')) {            
             request = request.clone({
                 setHeaders: {
                     Authorization: 'Bearer ' + token
