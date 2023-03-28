@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Ticket } from '../ticket/ticket';
 import { TicketService } from '../ticket/ticket.service';
-import { CoffeeService } from './coffee.service';
+import { DrinkCounterService } from './coffee.service';
+import { DrinkCounter } from './drink-counter';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,9 @@ import { CoffeeService } from './coffee.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  coffee: number = 0;
+  coffee: DrinkCounter = {state: 0, last_changed: new Date(), img: '/assets/img/java.png'};
+  beer: DrinkCounter = {state: 0, last_changed: new Date(), img: '/assets/img/beer.png'};
+
   ticketsOpen: number = 0;
   ticketsClosed: number = 0;
   ticketsUpdated: number = 0;
@@ -24,23 +27,28 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   tickets$: Subscription = new Subscription();
 
-  constructor(private ticketService: TicketService, private coffeeService: CoffeeService) { 
+  constructor(private ticketService: TicketService, private drinkCounterService: DrinkCounterService) { 
     this.fromDate.setMonth(this.fromDate.getMonth() - 12);
     this.fromDate.setDate(1);
   }
 
   ngOnInit(): void {
     this.getTickets();
-    this.getCoffee();
+    this.getDrinks();
   }
 
   ngOnDestroy(): void {
     this.tickets$.unsubscribe();
   }
 
-  getCoffee() {
-    this.coffeeService.getCoffee().subscribe(result => {
-      this.coffee = result.state;
+  getDrinks() {
+    this.drinkCounterService.getCoffee().subscribe(result => {
+      this.coffee = {...this.coffee, ...result};
+      
+    });
+
+    this.drinkCounterService.getBeer().subscribe(result => {
+      this.beer = {...this.beer, ...result};
     });
   }
 
