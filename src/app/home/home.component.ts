@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Ticket } from '../ticket/ticket';
 import { TicketService } from '../ticket/ticket.service';
+import { CoffeeService } from './coffee.service';
 
 @Component({
   selector: 'app-home',
@@ -23,17 +24,24 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   tickets$: Subscription = new Subscription();
 
-  constructor(private ticketService: TicketService) { 
+  constructor(private ticketService: TicketService, private coffeeService: CoffeeService) { 
     this.fromDate.setMonth(this.fromDate.getMonth() - 12);
     this.fromDate.setDate(1);
   }
 
   ngOnInit(): void {
     this.getTickets();
+    this.getCoffee();
   }
 
   ngOnDestroy(): void {
     this.tickets$.unsubscribe();
+  }
+
+  getCoffee() {
+    this.coffeeService.getCoffee().subscribe(result => {
+      this.coffee = result.state;
+    });
   }
 
   getTickets() {
